@@ -1,0 +1,337 @@
+<html>
+<head>
+    <script src="vue.min.js"></script>
+    <style>
+
+        p {
+            text-align: center;
+        }
+        #app{
+            border:5px double chartreuse;
+            /*border-style:dotted solid double dashed*/
+            position: absolute;
+            width:400px;
+            height:410px;
+            left:50%;
+            top:50%;
+            margin-left:-200px;
+            margin-top:-200px;
+        }
+        input{
+            height: 10px;
+        }
+        div{
+            width: 100px;
+            height: 100px;
+            float: left;
+        }
+        .zero{
+            background-color:#FF6
+        }
+        .one{
+            background-color:#F99;
+        }
+        .two{
+            background-color:#06F
+        }
+        .three{
+            background-color:#99FF33;
+        }
+        .four{
+            background-color:skyblue ;
+        }
+         .five{
+           background-color:darkkhaki ;
+         }
+         .six{
+             background-color:slateblue;
+         }
+         .seven{
+             background-color:sandybrown;
+         }
+         .eight{
+            background-color:#060
+         }
+          .nine{
+            background-color:#C3C
+          }
+          .ten{
+            background-color:bisque;
+          }
+        .eleven{
+           background-color:cadetblue;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="app" style="align:center">
+        <div v-for="(item,index) in Arr" v-model="gg(index)" :class="Arr[index].color" ><p>{{item.num}}</p></div>
+        <input type="text" @keydown.up="show3" @keydown.down="show4" @keydown.left="show5" @keydown.right="show6"
+               autofocus="autofocus"
+        >
+    </div>
+
+</body>
+<script>
+    var app=new Vue({
+        el:"#app",
+        data:{
+            Arr:[
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"},
+                {num:0,color:"zero"}
+            ],
+            a:""
+        },
+        methods:{
+            gg:function(item){
+                if(item==0){
+                    this.a="zero"
+                }
+                else if(item==2){
+                    this.a="one"
+                }
+                else if(item==4){
+                    this.a="two"
+                }
+            },
+            show3: function () {
+                var arr=[];
+                var b=0;
+                for(var i=0;i<4;i++){
+                    arr[i]=[]
+                    for(var j=0;j<4;j++){
+                        arr[i][j]=this.Arr[b].num;
+                        b++;
+                    }
+                }
+                for(var i=0;i<3;i++){
+                    for(var j=0;j<4;j++ ){
+                        if(arr[i][j]==arr[i+1][j]&&arr[i][j]!=0){
+                            arr[i][j]*=2;
+                            arr[i+1][j]=0
+                        }
+                    }
+                }
+                for(var i=0;i<3;i++){
+                    for(var j=0;j<4;j++ ){
+                        if(arr[i][j]==0&&arr[i+1][j]!=0){
+                            arr[i][j]=arr[i+1][j]
+                            arr[i+1][j]=0
+                        }
+                        if(i!=0&&arr[i][j]!=0&&arr[i-1][j]==0){
+                            arr[i-1][j]=arr[i][j];
+                            arr[i][j]=0;
+                            i=0
+                        }
+                    }
+                }
+                b=0;
+                for(var i=0;i<4;i++){
+                    for(var j=0;j<4;j++){
+                        this.Arr[b].num=arr[i][j];
+                        b++
+                    }
+                }
+                this.game();
+                this.arrcolor();
+            },
+            show4: function () {
+                var arr=[];
+                var b=0;
+                for(var i=0;i<4;i++){
+                    arr[i]=[]
+                    for(var j=0;j<4;j++){
+                        arr[i][j]=this.Arr[b].num;
+                        b++;
+                    }
+                }
+                for(var i=3;i>0;i--){
+                    for(var j=0;j<4;j++ ){
+                        if(arr[i][j]==arr[i-1][j]&&arr[i][j]!=0){
+                            arr[i][j]*=2;
+                            arr[i-1][j]=0
+                        }
+                    }
+                }
+                for(var i=3;i>0;i--){
+                    for(var j=0;j<4;j++ ){
+                        if(arr[i][j]==0&&arr[i-1][j]!=0){
+                            arr[i][j]=arr[i-1][j]
+                            arr[i-1][j]=0
+                        }
+                        if(i!=3&&arr[i][j]!=0&&arr[i+1][j]==0){
+                            arr[i+1][j]=arr[i][j];
+                            arr[i][j]=0;
+                            i=3
+                        }
+                    }
+                }
+                b=0;
+                for(var i=0;i<4;i++){
+                    for(var j=0;j<4;j++){
+                        this.Arr[b].num=arr[i][j];
+                        b++
+                    }
+                }
+                this.game();
+                this.arrcolor();
+            },
+            show5: function () {
+                var arr=[];
+                var b=0;
+                for(var i=0;i<4;i++){
+                    arr[i]=[]
+                    for(var j=0;j<4;j++){
+                        arr[i][j]=this.Arr[b].num;
+                        b++;
+                    }
+                }
+                for(var i=0;i<4;i++){
+                    for(var j=0;j<3;j++ ){
+                        if(arr[i][j]==arr[i][j+1]&&arr[i][j]!=0){
+                            arr[i][j]*=2;
+                            arr[i][j+1]=0
+                        }
+                    }
+                }
+                for(var i=0;i<4;i++){
+                    for(var j=0;j<3;j++ ){
+                        if(arr[i][j]==0&&arr[i][j+1]!=0){
+                            arr[i][j]=arr[i][j+1]
+                            arr[i][j+1]=0
+                        }
+                        if(j!=0&&arr[i][j]!=0&&arr[i][j-1]==0){
+                            arr[i][j-1]=arr[i][j];
+                            arr[i][j]=0;
+                            j=0
+                        }
+                    }
+                }
+                b=0;
+                for(var i=0;i<4;i++){
+                    for(var j=0;j<4;j++){
+                        this.Arr[b].num=arr[i][j];
+                        b++
+                    }
+                }
+                this.game();
+                this.arrcolor()
+            },
+            show6: function () {
+                var arr=[];
+                var b=0;
+                for(var i=0;i<4;i++){
+                    arr[i]=[]
+                    for(var j=0;j<4;j++){
+                        arr[i][j]=this.Arr[b].num;
+                        b++;
+                    }
+                }
+                for(var i=3;i>-1;i--){
+                    for(var j=3;j>0;j-- ){
+                        if(arr[i][j]==arr[i][j-1]&&arr[i][j]!=0){
+                            arr[i][j]*=2;
+                            arr[i][j-1]=0
+                        }
+                    }
+                }
+                for(var i=3;i>=0;i--){
+                    for(var j=3;j>0;j-- ){
+                        if(arr[i][j]==0&&arr[i][j-1]!=0){
+                            arr[i][j]=arr[i][j-1]
+                            arr[i][j-1]=0
+                        }
+                        if(j!=3&&arr[i][j]!=0&&arr[i][j+1]==0){
+                            arr[i][j+1]=arr[i][j];
+                            arr[i][j]=0;
+                            j=3
+                        }
+                    }
+                }
+                b=0;
+                for(var i=0;i<4;i++){
+                    for(var j=0;j<4;j++){
+                        this.Arr[b].num=arr[i][j];
+                        b++
+                    }
+                }
+                this.game()
+                this.arrcolor()
+            },
+            game:function(){
+                var l=0
+                for(var i=0;i<this.Arr.length;i++){
+                    if(this.Arr[i].num==0){
+                        break
+                    }
+                    l++
+                }
+                if(l==16){
+                    return alert("你输了")
+                }
+                var sub=Math.floor(Math.random()*16)
+                if(this.Arr[sub].num==0){
+                   return this.Arr[sub].num=2
+                }
+                return this.game()
+            },
+            arrcolor:function(){
+                for(var i=0;i<16;i++){
+                    if(this.Arr[i].num==0){
+                        this.Arr[i].color="zero"
+                    }
+                    else if(this.Arr[i].num==2){
+                        this.Arr[i].color="one"
+                    }
+                    else if(this.Arr[i].num==4){
+                        this.Arr[i].color="two"
+                    }
+                    else if(this.Arr[i].num==8){
+                        this.Arr[i].color="three"
+                    }
+                    else if(this.Arr[i].num==16){
+                        this.Arr[i].color="hour"
+                    }
+                    else if(this.Arr[i].num==32){
+                        this.Arr[i].color="five"
+                    }
+                    else if(this.Arr[i].num==64){
+                        this.Arr[i].color="six"
+                    }
+                    else if(this.Arr[i].num==128){
+                        this.Arr[i].color="seven"
+                    }
+                    else if(this.Arr[i].num==256){
+                        this.Arr[i].color="eight"
+                    }
+                    else if(this.Arr[i].num==512){
+                        this.Arr[i].color="nine"
+                    }
+                    else if(this.Arr[i].num==1024){
+                        this.Arr[i].color="ten"
+                    }
+                    else if(this.Arr[i].num==2048){
+                        this.Arr[i].color="eleven"
+                    }
+                }
+            }
+        }
+    })
+</script>
+</html>
